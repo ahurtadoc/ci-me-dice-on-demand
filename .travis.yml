@@ -39,5 +39,3 @@ jobs:
       script: echo "sending Slack notification..."
 notifications:
   slack: $SLACK_TOKEN
-    on_success: always
-    on_failure: always
