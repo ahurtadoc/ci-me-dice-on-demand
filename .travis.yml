@@ -19,7 +19,7 @@ jobs:
         provider: heroku
         strategy: api
         app: ahurtadoc-ci-learn-staging
-        api_key: $HEROKU_AUTH_TOKEN
+        api_key: $HEROKU_TOKEN
         on:
           - branch: main
     - stage: test staging
@@ -30,7 +30,7 @@ jobs:
         provider: heroku
         strategy: api
         app: ahurtadoc-ci-learn-prod
-        api_key: $HEROKU_AUTH_TOKEN
+        api_key: $HEROKU_TOKEN
         on:
           - branch: main
     - stage: test production
