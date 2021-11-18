@@ -2,40 +2,41 @@ language: python
 os: linux
 dist: xenial
 install:
-  - pip install -r requirements.txt
+- pip install -r requirements.txt
 jobs:
   include:
-    - stage: checkout
-      install: 
-        - git clone https://github.com/$TRAVIS_REPO_SLUG.git $TRAVIS_REPO_SLUG
-        - cd $TRAVIS_REPO_SLUG
-        - git checkout -qf $TRAVIS_COMMIT
-      script: skip
-    - stage: tests
-      script: python3 -m pytest tests/test_dice.py
-    - stage: deploy to staging
-      script: skip
-      deploy:
-        provider: heroku
-        strategy: api
-        app: ahurtadoc-ci-learn-staging
-        api_key: $HEROKU_TOKEN
-        on:
-          - branch: main
-    - stage: test staging
-      script: curl https://ahurtadoc-ci-learn-staging.herokuapp.com
-    - stage: deploy to production
-      script: skip
-      deploy:
-        provider: heroku
-        strategy: api
-        app: ahurtadoc-ci-learn-prod
-        api_key: $HEROKU_TOKEN
-        on:
-          - branch: main
-    - stage: test production
-      script: curl https://ahurtadoc-ci-learn-prod.herokuapp.com
-    - stage: notify
-      script: echo "sending Slack notification to $SLACK_TOKEN..."
+  - stage: checkout
+    install:
+    - git clone https://github.com/$TRAVIS_REPO_SLUG.git $TRAVIS_REPO_SLUG
+    - cd $TRAVIS_REPO_SLUG
+    - git checkout -qf $TRAVIS_COMMIT
+    script: skip
+  - stage: tests
+    script: python3 -m pytest tests/test_dice.py
+  - stage: deploy to staging
+    script: skip
+    deploy:
+      provider: heroku
+      strategy: api
+      app: ahurtadoc-ci-learn-staging
+      api_key: "$HEROKU_TOKEN"
+      on:
+      - branch: main
+  - stage: test staging
+    script: curl https://ahurtadoc-ci-learn-staging.herokuapp.com
+  - stage: deploy to production
+    script: skip
+    deploy:
+      provider: heroku
+      strategy: api
+      app: ahurtadoc-ci-learn-prod
+      api_key: "$HEROKU_TOKEN"
+      on:
+      - branch: main
+  - stage: test production
+    script: curl https://ahurtadoc-ci-learn-prod.herokuapp.com
+  - stage: notify
+    script: echo "sending Slack notification to $SLACK_TOKEN..."
 notifications:
-  slack: $SLACK_TOKEN
+  slack:
+    secure: XwAonpZq6jbAkdcC0x8UN6HoKrQQm63SQpzSHdFMZ1dFJmNPCDkN2W1lKH794L59u/K0pWknqQ/Ob8LfayftNlosWjHfuEa+qVCi/pPtJgTgOo6mMU2sZzuv/t3xOg7es/xUg/8kGoyUP/r3In2BBbnDQ/Gcb4z/OK7wxqye0of0gbaxIXxHet8gA9q6ODODhxfWaNXdNG10t6S1MFo4kGg2uQyI3H+ysAjjMwo5397XxYiHIIrlkUH0yd/Q08k7T2Mbhdob5uxUp3tK/78fIlxSI9nxjIlB5nzPdKQvJf1fSQZp7VBxKlnrC8i6H2MUu5EdnigK3BrPERP8G73bjW1YJdghdOK0z6/hCOXCHUuKeJyAXrvcT2oS5sU5byhq/BUHdIeYx1qv93rFEQsATXUC170xdWOXMyPEQRNyUfTDjQ5foZt+24vDfBHT8HI4FXE+zTKSvTYvjCsQJgO21mAFfewR1M2axiA8YCIDb2w6tqE38ylUH8e5hAe1TCyZVeyi0MRe68fK+OTbpm3mirRr/eCGa4g+TF4wcWsas8ezOTvWuttsy7+Rh2R6YhCR0tgt72nzBWTW8EPaIQnT7tjxMrVpRsC2CXoqCJuIRyVcxtl95jmVcw5WSJA82gTL+wiwwjFvwBpXkfCWM2/0PdrDaSao11om23UZf3F6djY=
