@@ -13,3 +13,25 @@ jobs:
       script: skip
     - stage: tests
       script: python3 -m pytest tests/test_dice.py
+    - stage: deploy to staging
+      script: skip
+      deploy:
+        provider: heroku
+        strategy: api
+        app: ahurtadoc-ci-learn-staging
+        api_key: $HEROKU_AUTH_TOKEN
+        on:
+          - branch: main
+    - stage: test staging
+      script: curl https://ahurtadoc-ci-learn-staging.herokuapp.com
+    - stage: deploy to production
+      script: skip
+      deploy:
+        provider: heroku
+        strategy: api
+        app: ahurtadoc-ci-learn-prod
+        api_key: $HEROKU_AUTH_TOKEN
+        on:
+          - branch: main
+    - stage: test production
+      script: curl https://ahurtadoc-ci-learn-prod.herokuapp.com
