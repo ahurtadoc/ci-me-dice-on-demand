@@ -36,6 +36,6 @@ jobs:
     - stage: test production
       script: curl https://ahurtadoc-ci-learn-prod.herokuapp.com
     - stage: notify
-      script: echo "sending Slack notification..."
+      script: echo "sending Slack notification to $SLACK_TOKEN..."
 notifications:
   slack: $SLACK_TOKEN
